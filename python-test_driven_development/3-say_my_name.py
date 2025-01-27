@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-this module contains a function that prints a name.
+this module contains a function that prints a name
 """
 def say_my_name(first_name, last_name=""):
     """
