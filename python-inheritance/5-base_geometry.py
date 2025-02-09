@@ -3,5 +3,5 @@
 
 
 class BaseGeometry:
-    """returns true if the object is exactly an instance of the specified class"""
+    """returns true if the object"""
     pass

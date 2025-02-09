@@ -3,5 +3,5 @@
 
 
 def is_kind_of_class(obj, a_class):
-    """returns true if the object is exactly an instance of the specified class"""
+    """returns true if the object"""
     return isinstance(obj, a_class)

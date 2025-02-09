@@ -3,10 +3,10 @@
 
 
 class BaseGeometry:
-    """returns true if the object is exactly an instance of the specified class"""
+    """returns true if the object"""
 
     def area(self):
-        """returns true if the object is exactly an instance of the specified class"""
+        """returns true if the object"""
         raise Exception("area() is not implemented")
 
     def integer_validator(self, name, value):
