@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """module that defines a class MyList"""
-
-
 Rectangle = __import__('9-rectangle').Rectangle
+
 
 class Square(Rectangle):
     """rectangle"""
