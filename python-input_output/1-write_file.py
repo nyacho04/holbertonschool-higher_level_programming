@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-
 """ function """
+
 
 def write_file(filename="", text=""):
     """ read file """
