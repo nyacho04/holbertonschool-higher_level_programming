@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" read file """
 import sys
 from os import path
 
