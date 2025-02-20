@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
@@ -18,7 +19,10 @@ def get_data():
 @app.route('/add_user', methods=['POST'])
 def add_user():
     data = request.get_json()
-    if not data or 'username' not in data:
+    if not data:
+        abort(400, description="Request data is missing")
+    if 'username' not in data:
+        abort(400, description="Username is required")
         abort(400, description="Username is required")
 
     username = data['username']
@@ -26,22 +30,28 @@ def add_user():
         abort(400, description="Username already exists")
 
     users[username] = {
-        "name": data.get("name"),
-        "age": data.get("age"),
-        "city": data.get("city")
+        "name": data.get("name", "Unknown"),
+        "age": data.get("age", 0),
+        "city": data.get("city", "Unknown")
     }
-    return jsonify({"message": "User added", "user": users[username]}), 201
+    return jsonify({"message": generate_message("User added"), "user": users[username]}), 201
 
 @app.route('/users/<username>')
 def get_user(username):
-    if username in users:
-        return jsonify(users[username])
+    user = users.get(username)
+    if user:
+        return jsonify(user)
     else:
         return jsonify({"error": "User not found"}), 404
-
-@app.route('/status')
-def status():
+    return jsonify({"status": "OK"})
     return "OK"
+
+def generate_message(message):
+    return message
 
 if __name__ == '__main__':
     app.run(debug=True)
+if __name__ == '__main__':
+    import os
+    debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
+    app.run(debug=debug_mode)
