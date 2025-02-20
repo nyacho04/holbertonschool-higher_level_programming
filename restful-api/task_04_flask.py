@@ -37,7 +37,7 @@ def get_user(username):
     if username in users:
         return jsonify(users[username])
     else:
-        abort(404, description="User not found")
+        return jsonify({"error": "User not found"}), 404
 
 @app.route('/status')
 def status():
