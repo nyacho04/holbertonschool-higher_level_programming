@@ -3,7 +3,9 @@ from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
 
-users = {"jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}}
+users = {
+    "jane": {"name": "Jane", "age": 28, "city": "Los Angeles"}
+}
 
 @app.route('/')
 def home():
@@ -19,17 +21,21 @@ def add_user():
     if not data or 'username' not in data:
         abort(400, description="Username is required")
 
-    if any(user['username'] == data['username'] for user in users):
+    username = data['username']
+    if username in users:
         abort(400, description="Username already exists")
 
-    users.append(data)
-    return jsonify({"message": "User added", "user": data}), 201
+    users[username] = {
+        "name": data.get("name"),
+        "age": data.get("age"),
+        "city": data.get("city")
+    }
+    return jsonify({"message": "User added", "user": users[username]}), 201
 
 @app.route('/users/<username>')
 def get_user(username):
-    user = next((user for user in users if user['username'] == username), None)
-    if user:
-        return jsonify(user)
+    if username in users:
+        return jsonify(users[username])
     else:
         abort(404, description="User not found")
 
