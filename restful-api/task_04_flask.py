@@ -24,13 +24,13 @@ def status():
 def add_user():
     data = request.get_json()
     if not data:
-        abort(400, description="Request data is missing")
+        return jsonify({"error": "Request data is missing"}), 400
     if 'username' not in data:
-        abort(400, description="Username is required")
+        return jsonify({"error": "Username is required"}), 400
 
     username = data['username']
     if username in users:
-        abort(400, description="Username already exists")
+        return jsonify({"error": "Username already exists"}), 400
 
     users[username] = {
         "name": data.get("name", "Unknown"),
