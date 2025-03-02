@@ -14,7 +14,11 @@ def home():
 
 @app.route('/data')
 def get_data():
-    return jsonify(users)
+    return jsonify(list(users.keys()))
+
+@app.route('/status')
+def status():
+    return "OK"
 
 @app.route('/add_user', methods=['POST'])
 def add_user():
@@ -22,7 +26,6 @@ def add_user():
     if not data:
         abort(400, description="Request data is missing")
     if 'username' not in data:
-        abort(400, description="Username is required")
         abort(400, description="Username is required")
 
     username = data['username']
@@ -43,14 +46,10 @@ def get_user(username):
         return jsonify(user)
     else:
         return jsonify({"error": "User not found"}), 404
-    return jsonify({"status": "OK"})
-    return "OK"
 
 def generate_message(message):
     return message
 
-if __name__ == '__main__':
-    app.run(debug=True)
 if __name__ == '__main__':
     import os
     debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
