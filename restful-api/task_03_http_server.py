@@ -3,7 +3,9 @@
 import http.server as srv
 import socketserver
 import json
-PORT = 8000
+
+PORT = 8080
+
 class Server(srv.BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -20,9 +22,10 @@ class Server(srv.BaseHTTPRequestHandler):
             self.wfile.write(jout.encode('utf-8'))
         elif self.path == '/status':
             self.send_response(200)
-            self.send_header('Content-Type', 'text/html')
+            self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(b"OK")
+            jout = json.dumps({"status": "OK"})
+            self.wfile.write(jout.encode('utf-8'))
         elif self.path == '/info':
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
@@ -31,10 +34,10 @@ class Server(srv.BaseHTTPRequestHandler):
             self.wfile.write(jout.encode('utf-8'))
         else:
             self.send_response(404)
-            self.send_header('Content-Type', 'text/plain')
+            self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(b"Endpoint not found\n")
-            
+            jout = json.dumps({"error": "Endpoint not found"})
+            self.wfile.write(jout.encode('utf-8'))
             
 if __name__ == "__main__":
     with socketserver.TCPServer(("", PORT), Server) as httpd:
