@@ -25,7 +25,7 @@ class Server(srv.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            jout = json.dumps({"status": "OK"})
+            jout = json.dumps({"status": "OK", "message": "Server is running"})
             self.wfile.write(jout.encode('utf-8'))
         elif self.path == '/info':
             self.send_response(200)
@@ -35,9 +35,10 @@ class Server(srv.BaseHTTPRequestHandler):
             self.wfile.write(jout.encode('utf-8'))
         else:
             self.send_response(404)
-            self.send_header('Content-Type', 'text/plain')
+            self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(b'404 Not Found')
+            jout = json.dumps({"error": "Not Found", "message": "The requested resource was not found"})
+            self.wfile.write(jout.encode('utf-8'))
 
 if __name__ == "__main__":
     with socketserver.TCPServer(("", PORT), Server) as httpd:
