@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -21,22 +21,27 @@ def status():
 @app.route('/add_user', methods=['POST'])
 def add_user():
     data = request.get_json()
+    
     if not data:
         return jsonify({"error": "Request data is missing"}), 400
+    
     if 'username' not in data:
         return jsonify({"error": "Username is required"}), 400
-
+    
     username = data['username']
+    
     if username in users:
         return jsonify({"error": "Username already exists"}), 400
-
-    users[username] = {
+    
+    user_data = {
         "username": username,
         "name": data.get("name", "Unknown"),
         "age": data.get("age", 0),
         "city": data.get("city", "Unknown")
     }
-    return jsonify({"message": "User added", "user": users[username]}), 201
+    users[username] = user_data
+    
+    return jsonify({"message": "User added", "user": user_data}), 201
 
 @app.route('/users/<username>')
 def get_user(username):
