@@ -25,7 +25,7 @@ class Server(srv.BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            jout = json.dumps({"status": "OK", "message": "Server is running"})
+            jout = json.dumps({"status": "OK"})
             self.wfile.write(jout.encode('utf-8'))
         elif self.path == '/info':
             self.send_response(200)
@@ -37,7 +37,7 @@ class Server(srv.BaseHTTPRequestHandler):
             self.send_response(404)
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            jout = json.dumps({"error": "Not Found", "message": "The requested resource was not found"})
+            jout = json.dumps({"error": "Not Found"})
             self.wfile.write(jout.encode('utf-8'))
 
 if __name__ == "__main__":
