@@ -17,12 +17,12 @@ if __name__ == "__main__":
         port=3306,
         user=mysql_username,
         passwd=mysql_password,
-        db=database_name)
+        db=database_name
+    )
 
     cursor = db.cursor()
 
-    query = "SELECT * FROM states WHERE BINARY name = '{}'
-            ORDER BY id ASC".format(state_name_searched)
+    query = "SELECT * FROM states WHERE BINARY name = '{}' ORDER BY id ASC".format(state_name_searched)
     cursor.execute(query)
 
     rows = cursor.fetchall()
