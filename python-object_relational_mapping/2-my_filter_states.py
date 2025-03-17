@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-tis script lists all states from the database
+this script lists all states from the database
 """
 
 import MySQLdb
@@ -10,6 +10,7 @@ if __name__ == "__main__":
     mysql_username = sys.argv[1]
     mysql_password = sys.argv[2]
     database_name = sys.argv[3]
+    state_name_searched = sys.argv[4]
 
     db = MySQLdb.connect(
         host="localhost",
@@ -20,8 +21,9 @@ if __name__ == "__main__":
 
     cursor = db.cursor()
 
-    cursor.execute(
-        "SELECT * FROM states WHERE BINARY name LIKE 'N%' ORDER BY id ASC")
+    query = "SELECT * FROM states WHERE BINARY name = '{}'
+            ORDER BY id ASC".format(state_name_searched)
+    cursor.execute(query)
 
     rows = cursor.fetchall()
 
